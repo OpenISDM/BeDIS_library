@@ -172,8 +172,6 @@ typedef enum pkt_types {
     tracked_object_data = 4,
     /* A pkt containing health report */
     health_report = 5,
-    /* A pkt for LBeacon */
-    data_for_LBeacon = 6
 } PktType;
 
 
