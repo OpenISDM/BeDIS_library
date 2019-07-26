@@ -96,7 +96,6 @@
 /* The category of the printf during debugging */
 #define LOG_CATEGORY_DEBUG "LBeacon_Debug"
 
-
 /* Parameter that marks the start of the config file */
 #define DELIMITER "="
 
@@ -107,11 +106,23 @@
 /* Parameter that marks the separate of different records */
 #define DELIMITER_COMMA ","
 
+/* Parameter that marks the separate of different records */
+#define DELIMITER_DOT "."
+
 /* Maximum number of characters in each line of config file */
 #define CONFIG_BUFFER_SIZE 4096
 
 /* The number of slots in the memory pool */
 #define SLOTS_IN_MEM_POOL 1024
+
+/* Number of characters in the uuid of a Bluetooth device */
+#define LENGTH_OF_UUID 33
+
+/* Number of characters in a Bluetooth MAC address */
+#define LENGTH_OF_MAC_ADDRESS 18
+
+/* Number of bytes in the string format of epoch time */
+#define LENGTH_OF_EPOCH_TIME 11
 
 /* Length of the IP address in byte */
 #define NETWORK_ADDR_LENGTH 16
@@ -162,11 +173,11 @@ typedef enum _ErrorCode{
     E_SCAN_SET_INQUIRY_MODE = 12,
     E_SCAN_START_INQUIRY = 13,
     E_SEND_REQUEST_TIMEOUT = 14,
-    E_ADVERTISE_STATUS = 15,
-    E_ADVERTISE_MODE = 16,
-    E_SET_BLE_PARAMETER = 17,
-    E_BLE_ENABLE = 18,
-    E_GET_BLE_SOCKET = 19,
+    E_BLE_ENABLE = 15,
+    E_SET_BLE_PARAMETER = 16,
+    E_GET_BLE_SOCKET = 17,
+    E_ADVERTISE_STATUS = 18,
+    E_ADVERTISE_MODE = 19,
     E_START_THREAD = 20,
     E_INIT_THREAD_POOL = 21,
     E_INIT_ZIGBEE = 22,
@@ -192,11 +203,19 @@ typedef enum _ErrorCode{
     E_API_INITIALLZATION =42,
     E_API_FREE = 43,
     E_MODULE_INITIALIZATION = 44,
+    E_PARSE_UUID = 45,
+    E_PARSE_JOIN_RESPONSE = 46,
 
-    MAX_ERROR_CODE = 45
+    MAX_ERROR_CODE = 47
 
 } ErrorCode;
 
+/* Type of join response. */
+typedef enum _JoinStatus{
+    JOIN_ACK = 0,
+    JOIN_DENY = 1,
+    JOIN_UNKNOWN = 2
+} JoinStatus;
 
 /* Type of health_status to be queried. */
 typedef enum _HealthStatus {
@@ -212,33 +231,34 @@ typedef enum pkt_types {
     /* Unknown type of pkt type */
     undefined = 0,
 
-    /* For Join Request */
-
     /* Request join from LBeacon */
     request_to_join = 1,
-    /* When Gateway accept LBeacon join request */
-    join_request_ack = 2,
-    /* When Gateway deny Beacon join request */
-    join_request_deny = 3,
+	
+    /* Join response */
+    join_response = 2,
 
-    /* For LBeacon send type */
-
+    /* A pkt containing time critical tracked object data */
+    time_critical_tracked_object_data = 3,
+	
     /* A pkt containing tracked object data */
     tracked_object_data = 4,
-    /* A pkt containing health report */
-    health_report = 5,
     
+	/* A pkt containing health report */
+    gateway_health_report = 5,
+	
+    /* A pkt containing health report */
+    beacon_health_report = 6
 } PktType;
 
 
 typedef enum pkt_direction {
-
+	/* pkt from server */
+	from_server = 2,
     /* pkt from gateway */
-    from_gateway = 10,
-    /* pkt from server */
-    from_server = 8,
+    from_gateway = 6,
     /* pkt from beacon */
-    from_beacon = 0
+    from_beacon = 8
+
 } PktDirection;
 
 
