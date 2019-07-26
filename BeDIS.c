@@ -186,7 +186,8 @@ void *CommUnit_routine()
         {
             /* Scan the priority_list to get the buffer list with the highest
                priority among all lists that are not empty. */
-
+            
+            did_work = false;
             pthread_mutex_lock( &priority_list_head.list_lock);
 
             list_for_each(current_entry,
@@ -228,6 +229,10 @@ void *CommUnit_routine()
             }
             uptime = get_clock_time();
             pthread_mutex_unlock( &priority_list_head.list_lock);
+            
+            if(did_work == false){
+                sleep_t(BUSY_WAITING_TIME_IN_MS);
+            }
         }
 
         /* Scan the priority list in reverse order to prevent starving the
