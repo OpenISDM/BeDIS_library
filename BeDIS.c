@@ -51,6 +51,17 @@ unsigned int twoc(int in, int t)
     return (in < 0) ? (in + (2 << (t - 1))) : in;
 }
 
+char decimal_to_hex(int number)
+{
+    char c;
+    
+    if(number <= 9)
+        c = number +'0';
+    else
+        c = (number - 10) + 'A';
+    
+    return c;
+}
 
 void init_buffer(BufferListHead *buffer_list_head, void (*function_p)(void *),
                  int priority_nice)

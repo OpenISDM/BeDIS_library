@@ -429,6 +429,22 @@ unsigned int twoc(int in, int t);
 
 
 /*
+  decimal_to_hex:
+
+     This function translates the input number from demical to hex format 
+
+  Parameters:
+
+     number - the input decimal number
+
+  Return value:
+
+     the hex format of the input number
+ */
+char decimal_to_hex(int number);
+
+
+/*
   init_buffer:
 
      The function fills the attributes of a specified buffer content will 
