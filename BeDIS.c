@@ -40,6 +40,7 @@
      Holly Wang    , hollywang@iis.sinica.edu.tw
      Jake Lee      , jakelee@iis.sinica.edu.tw
      Chun Yu Lai   , chunyu1202@gmail.com
+     Jia Ying Shi  , littlestone1225@yahoo.com.tw
 
  */
 
@@ -146,12 +147,13 @@ void *CommUnit_routine()
     this iteration of the while loop */
     bool did_work;
 
-    /* The pointer point to the current priority buffer list entry */
+    /* The pointer to the current priority buffer list entry */
     List_Entry *current_entry, *list_entry;
 
+    /* The pointer to the current node in the list */
     BufferNode *current_node;
 
-    /* The pointer point to the current buffer list head */
+    /* The pointer to the current buffer list head */
     BufferListHead *current_head;
 
     /* wait for NSI get ready */
@@ -179,20 +181,18 @@ void *CommUnit_routine()
     /* Set the initial time. */
     init_time = uptime;
 
-    /* All the buffers lists have been are initialized and the thread pool
+    /* All the buffers lists have been initialized and the thread pool
        initialized. Set the flag to true. */
     CommUnit_initialization_complete = true;
 
-    /* When there is no dead thead, do the work. */
+    /* When there is no dead thead, continue to work. */
     while(ready_to_work == true)
     {
-        did_work = false;
-
         uptime = get_clock_time();
 
         /* In the normal situation, the scanning starts from the high priority
            to lower priority. When the timer expired for MAX_STARVATION_TIME,
-           reverse the scanning process */
+           reverse the scanning order */
         while(uptime - init_time < MAX_STARVATION_TIME)
         {
             /* Scan the priority_list to get the buffer list with the highest
@@ -228,7 +228,7 @@ void *CommUnit_routine()
                                              buffer_entry);
 
                     /* Call the function specified by the function pointer to 
-                       the work */
+                       do the work */
                     return_error_value = thpool_add_work(thpool,
                                                      current_head -> function,
                                                      current_node,
@@ -252,45 +252,44 @@ void *CommUnit_routine()
         pthread_mutex_lock( &priority_list_head.list_lock);
 
         
-        // In starvation scenario, we still need to process time-critial buffer 
-        // lists first. We first process Geo_fence_alert_buffer_list_head, 
-        // then Geo_fence_receive_buffer_list_head, and finally reversely 
-        // traverse the priority list.
+        /*  In starvation scenario, we still need to process time-critial buffer 
+            lists first. We first process Geo_fence_alert_buffer_list and 
+            then Geo_fence_receive_buffer_list, and finally reversely 
+            traverse the priority list.
+        */
         list_for_each(current_entry, &priority_list_head.priority_list_entry)
         {
             current_head = ListEntry(current_entry, BufferListHead,
                                      priority_list_entry);
 
-            if(current_head -> priority_nice == 
-                config.time_critical_priority){
+            if(current_head -> priority_nice !=config.time_critical_priority)
+                break;
+            pthread_mutex_lock( &current_head -> list_lock);
 
-                pthread_mutex_lock( &current_head -> list_lock);
+            if (is_entry_list_empty( &current_head->list_head) == true)
+            {
+                pthread_mutex_unlock( &current_head -> list_lock);
 
-                if (is_entry_list_empty( &current_head->list_head) == true)
-                {
-                    pthread_mutex_unlock( &current_head -> list_lock);
+                continue;
+            }
+            else 
+            {
+                list_entry = current_head -> list_head.next;
 
-                    continue;
-                }
-                else 
-                {
-                    list_entry = current_head -> list_head.next;
+                remove_list_node(list_entry);
 
-                    remove_list_node(list_entry);
+                pthread_mutex_unlock( &current_head -> list_lock);
 
-                    pthread_mutex_unlock( &current_head -> list_lock);
-
-                    current_node = ListEntry(list_entry, BufferNode,
+                current_node = ListEntry(list_entry, BufferNode,
                                              buffer_entry);
 
-                    return_error_value = thpool_add_work(thpool,
+                return_error_value = thpool_add_work(thpool,
                                                      current_head -> function,
                                                      current_node,
                                                      current_head ->
                                                      priority_nice);
-                    did_work = true;
-                    break;
-                }
+                did_work = true;
+                break;
             }
         }
 
@@ -328,7 +327,6 @@ void *CommUnit_routine()
                                                      current_head ->
                                                      priority_nice);
                 did_work = true;
-                break;
             }
         }
 

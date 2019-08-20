@@ -41,6 +41,7 @@
      Holly Wang    , hollywang@iis.sinica.edu.tw
      Jake Lee      , jakelee@iis.sinica.edu.tw
      Chun Yu Lai   , chunyu1202@gmail.com
+     Jia Ying Shi  , littlestone1225@yahoo.com.tw
 
  */
 
@@ -99,14 +100,14 @@
 /* Parameter that marks the start of the config file */
 #define DELIMITER "="
 
-/* Parameter that marks the separator of differnt records communicated with
+/* Parameter that marks the separation between records communicated with
    SQL wrapper API */
 #define DELIMITER_SEMICOLON ";"
 
-/* Parameter that marks the separate of different records */
+/* Parameter that marks the separation between records */
 #define DELIMITER_COMMA ","
 
-/* Parameter that marks the separate of different records */
+/* Parameter that marks the separation between records */
 #define DELIMITER_DOT "."
 
 /* Maximum number of characters in each line of config file */
@@ -133,7 +134,7 @@
 /* The size of message to be sent over WiFi in bytes */
 #define WIFI_MESSAGE_LENGTH 4096
 
-/* Maximum length of the message in bytes allow to set to WIFI_MESSAGE_LENGTH */
+/* Maximum length of the messages in bytes allowed to be set to wifi_message_length */
 #define MAXIMUM_WIFI_MESSAGE_LENGTH 65507
 
 /* Minimum length of the message in bytes 
@@ -150,9 +151,8 @@
 /* Maximum number of nodes per star network */
 #define MAX_NUMBER_NODES 16
 
-/*
-  Maximum length of time in seconds low priority message lists are starved
-  of attention. */
+/* Maximum length of time in seconds low priority message lists are allowed to be 
+   starved of attention. */
 #define MAX_STARVATION_TIME 600
 
 
@@ -214,7 +214,8 @@ typedef enum _ErrorCode{
 typedef enum _JoinStatus{
     JOIN_ACK = 0,
     JOIN_DENY = 1,
-    JOIN_UNKNOWN = 2
+    JOIN_UNKNOWN = 2,
+    MAX_JOINSTATUS = 3
 } JoinStatus;
 
 /* Type of health_status to be queried. */
@@ -252,8 +253,8 @@ typedef enum pkt_types {
 
 
 typedef enum pkt_direction {
-	/* pkt from server */
-	from_server = 2,
+	 /* pkt from server */
+	 from_server = 2,
     /* pkt from gateway */
     from_gateway = 6,
     /* pkt from beacon */
@@ -284,7 +285,7 @@ typedef struct {
     /* The network address of the packet received or the packet to be sent */
     char net_address[NETWORK_ADDR_LENGTH];
 
-    /* The port of the packet received or the packet to be sent */
+    /* The port from which the packet was received or to be sent */
     unsigned int port;
 
     /* The pointer points to the content. */
@@ -306,10 +307,10 @@ typedef struct {
 
     struct List_Entry priority_list_entry;
 
-    /* The nice is a value relative to the normal priority (i.e. nice = 0) */
+    /* The nice relative to the normal priority (i.e. nice = 0) */
     int priority_nice;
 
-    /* The pointer point to the function to be called to process buffer nodes in
+    /* The pointer to the function to be called to process buffer nodes in
        the list. */
     void (*function)(void *arg);
 
@@ -390,7 +391,7 @@ BufferListHead priority_list_head;
 /* Flags */
 
 /*
-  Initialization of the Server components involves network activates that may
+  Initialization of the Server components involves network activation that may
   take time. These flags enable each module to inform the main thread when its
   initialization completes.
  */
@@ -447,16 +448,16 @@ char decimal_to_hex(int number);
 /*
   init_buffer:
 
-     The function fills the attributes of a specified buffer content will 
-     be process by another thread, including the function need to process 
-     the content, the argument of the function and the priority level at 
+     The function fills the attributes of the head of a list of buffers to be 
+     processed by another thread, including the function called process 
+     buffer contents, the argument of the function and the priority level at 
      which the function is to be executed.
 
   Parameters:
 
-     buffer - A pointer points to the buffer to be processed.
+     buffer - A pointer to the buffer to be processed.
      buff_id - The index of the buffer for the priority array.
-     function - The pointer to the function as way the attributes of the buffer.
+     function - The pointer to the function to process the buffer.
      priority - The priority nice of the thread when processing the buffer.
 
   Return value:
@@ -474,7 +475,7 @@ void init_buffer(BufferListHead *buffer_list_head, void (*function_p)(void *),
 
   Parameters:
 
-     address_map - The head of the AddressMap.
+     address_map - Pointer to head of the AddressMap.
 
   Return value:
 
@@ -486,7 +487,7 @@ void init_Address_Map(AddressMapArray *address_map);
 /*
   is_in_Address_Map:
 
-     This function check whether the network address is in the AddressMap.
+     This function check whether the input network address is in the AddressMap.
 
   Parameters:
 
@@ -548,7 +549,7 @@ void trim_string_tail(char *message);
 
   Parameters:
 
-     stop - A interger signal triggered by ctrl-c.
+     stop - A integer signal triggered by ctrl-c.
 
   Return value:
 
@@ -560,7 +561,7 @@ void ctrlc_handler(int stop);
 /*
   strncasecmp:
 
-     This function compares two input strings speicified by input parameters.
+     This function compares two input strings specified by input parameters.
 
   Parameters:
 
@@ -591,7 +592,7 @@ int strncasecmp(char const *str_a, char const *str_b, size_t len);
 
      Error_code: The error code for the corresponding error
  */
-ErrorCode startThread(pthread_t *thread, void *( *start_routine)(void *),
+ErrorCode extern startThread(pthread_t *thread, void *( *start_routine)(void *),
                       void *arg);
 
 
@@ -633,7 +634,7 @@ char *strtok_save(char *str, char *delim, char **saveptr);
 
      system_time - system time in seconds
 */
-int get_system_time();
+int extern get_system_time();
 
 
 /*
@@ -649,9 +650,22 @@ int get_system_time();
 
      int - uptime of MONOTONIC time in seconds
 */
-int get_clock_time();
+int extern get_clock_time();
 
 
+/*
+  sleep_t:
+
+     The function is used to sleep the program between different operating system. 
+
+  Parameters:
+
+     wait_time - sleep time in seconds
+
+  Return value:
+
+     None
+*/
 void sleep_t(int wait_time);
 
 #endif
