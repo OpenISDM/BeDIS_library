@@ -193,7 +193,8 @@ void *CommUnit_routine()
         /* In the normal situation, the scanning starts from the high priority
            to lower priority. When the timer expired for MAX_STARVATION_TIME,
            reverse the scanning order */
-        while(uptime - init_time < MAX_STARVATION_TIME)
+        while(ready_to_work == true && 
+              uptime - init_time < MAX_STARVATION_TIME)
         {
             /* Scan the priority_list to get the buffer list with the highest
                priority among all lists that are not empty. */
