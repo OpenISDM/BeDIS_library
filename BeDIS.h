@@ -90,6 +90,24 @@
 #include "zlog.h"
 #include "global_variable.h"
 
+/* Server API protocol version for communications between Server and Gateway.*/
+
+/* BOT_SERVER_API_VERSION_20 is compatible with BOT_GATEWAY_API_VERSION_10 */
+
+/* BOT_SERVER_API_VERSION_LATEST=2.1 is compatible with both 
+   BOT_GATEWAY_API_VERSION_10 and BOT_GATEWAY_API_VERSION_LATEST=1.1 */
+   
+#define BOT_SERVER_API_VERSION_20 "2.0"
+
+#define BOT_SERVER_API_VERSION_LATEST "2.1"
+
+/* Gateway API protocol version for communicate between Gateway and LBeacon. */
+
+#define BOT_GATEWAY_API_VERSION_10 "1.0"
+
+#define BOT_GATEWAY_API_VERSION_LATEST "1.1"
+
+
 /* zlog category name */
 /* The category of log file used for health report */
 #define LOG_CATEGORY_HEALTH_REPORT "Health_Report"
@@ -134,14 +152,6 @@
 /* The size of message to be sent over WiFi in bytes */
 #define WIFI_MESSAGE_LENGTH 4096
 
-/* Maximum length of the messages in bytes allowed to be set to wifi_message_length */
-#define MAXIMUM_WIFI_MESSAGE_LENGTH 65507
-
-/* Minimum length of the message in bytes 
-   (One byte for data type and one byte for a space) 
- */
-#define MINIMUM_WIFI_MESSAGE_LENGTH 2
-
 /* Length of coordinates in number of bits */
 #define COORDINATE_LENGTH 64
 
@@ -151,8 +161,8 @@
 /* Maximum number of nodes per star network */
 #define MAX_NUMBER_NODES 16
 
-/* Maximum length of time in seconds low priority message lists are allowed to be 
-   starved of attention. */
+/* Maximum length of time in seconds low priority message lists are allowed to 
+   be starved of attention. */
 #define MAX_STARVATION_TIME 600
 
 
@@ -281,6 +291,8 @@ typedef struct {
     unsigned int pkt_direction;
 
     unsigned int pkt_type;
+    
+    float API_version;
 
     /* The network address of the packet received or the packet to be sent */
     char net_address[NETWORK_ADDR_LENGTH];
