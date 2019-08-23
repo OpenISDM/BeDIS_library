@@ -243,7 +243,7 @@ void *CommUnit_routine()
             pthread_mutex_unlock( &priority_list_head.list_lock);
             
             if(did_work == false){
-                sleep_t(BUSY_WAITING_TIME_IN_MS);
+                sleep_t(BUSY_WAITING_TIME_IN_PRIORITY_LIST_IN_MS);
             }
         }
 
@@ -340,7 +340,7 @@ void *CommUnit_routine()
            sleep before starting the next iteration */
         if(did_work == false)
         {
-            sleep_t(BUSY_WAITING_TIME_IN_MS);
+            sleep_t(BUSY_WAITING_TIME_IN_PRIORITY_LIST_IN_MS);
         }
 
     } /* End while(ready_to_work == true) */

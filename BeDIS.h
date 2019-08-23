@@ -158,6 +158,9 @@
 /* Timeout interval in ms */
 #define BUSY_WAITING_TIME_IN_MS 300
 
+/* Timeout interval in ms for busy waiting in processing priority list */
+#define BUSY_WAITING_TIME_IN_PRIORITY_LIST_IN_MS 50
+
 /* Maximum number of nodes per star network */
 #define MAX_NUMBER_NODES 16
 
