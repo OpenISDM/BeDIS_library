@@ -156,6 +156,9 @@
 #define COORDINATE_LENGTH 64
 
 /* Timeout interval in ms */
+#define NORMAL_WAITING_TIME_IN_MS 1000
+
+/* Timeout interval in ms */
 #define BUSY_WAITING_TIME_IN_MS 300
 
 /* Timeout interval in ms for busy waiting in processing priority list */

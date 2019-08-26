@@ -66,10 +66,10 @@
 #define UDP_SELECT_TIMEOUT 60
 
 /* The time in milliseconds for the send thread to sleep when it is idle */
-#define SEND_THREAD_IDLE_SLEEP_TIME 1
+#define SEND_THREAD_IDLE_SLEEP_TIME 50
 
 /* The time in milliseconds for the receive thread to sleep when it is idle */
-#define RECEIVE_THREAD_IDLE_SLEEP_TIME 1
+#define RECEIVE_THREAD_IDLE_SLEEP_TIME 50
 
 /* When debugging is needed */
 //#define debugging

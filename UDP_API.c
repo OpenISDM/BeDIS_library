@@ -182,6 +182,10 @@ void *udp_send_pkt_routine(void *udpconfig)
                 sleep_t(SEND_THREAD_IDLE_SLEEP_TIME);
             }
         }
+        else
+        {
+            sleep_t(SEND_THREAD_IDLE_SLEEP_TIME);
+        }
 
     }
 
@@ -229,7 +233,7 @@ void *udp_recv_pkt_routine(void *udpconfig)
 #ifdef debugging
             zlog_info(category_debug, "No data received.");
 #endif
-            sleep_t(SEND_THREAD_IDLE_SLEEP_TIME);
+            sleep_t(RECEIVE_THREAD_IDLE_SLEEP_TIME);
         }
         else if(recv_len > 0)
         {
