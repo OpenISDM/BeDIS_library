@@ -132,6 +132,76 @@ int is_in_Address_Map(AddressMapArray *address_map, char *find, int flag)
     return -1;
 }
 
+void *sort_priority_list(CommonConfig *common_config, BufferListHead *list_head){
+
+    List_Entry *list_pointer,
+               *next_list_pointer;
+
+    List_Entry critical_priority_head, high_priority_head,
+               normal_priority_head, low_priority_head;
+
+    BufferListHead *current_head, *next_head;
+
+    init_entry( &critical_priority_head);
+    init_entry( &high_priority_head);
+    init_entry( &normal_priority_head);
+    init_entry( &low_priority_head);
+
+    pthread_mutex_lock( &list_head -> list_lock);
+
+    list_for_each_safe(list_pointer, next_list_pointer,
+                       &list_head -> priority_list_entry){
+
+        remove_list_node(list_pointer);
+
+        current_head = ListEntry(list_pointer, BufferListHead,
+                                 priority_list_entry);
+
+        if(current_head -> priority_nice == common_config->time_critical_priority)
+
+            insert_list_tail( list_pointer, &critical_priority_head);
+
+        else if(current_head -> priority_nice == common_config->high_priority)
+
+            insert_list_tail( list_pointer, &high_priority_head);
+
+        else if(current_head -> priority_nice == common_config->normal_priority)
+
+            insert_list_tail( list_pointer, &normal_priority_head);
+
+        else if(current_head -> priority_nice == common_config->low_priority)
+
+            insert_list_tail( list_pointer, &low_priority_head); 
+    }
+
+    if(is_entry_list_empty(&critical_priority_head) == false){
+        list_pointer = critical_priority_head.next;
+        remove_list_node(list_pointer -> prev);
+        concat_list( &list_head -> priority_list_entry, list_pointer);
+    }
+
+    if(is_entry_list_empty(&high_priority_head) == false){
+        list_pointer = high_priority_head.next;
+        remove_list_node(list_pointer -> prev);
+        concat_list( &list_head -> priority_list_entry, list_pointer);
+    }
+
+    if(is_entry_list_empty(&normal_priority_head) == false){
+        list_pointer = normal_priority_head.next;
+        remove_list_node(list_pointer -> prev);
+        concat_list( &list_head -> priority_list_entry, list_pointer);
+    }
+
+    if(is_entry_list_empty(&low_priority_head) == false){
+        list_pointer = low_priority_head.next;
+        remove_list_node(list_pointer -> prev);
+        concat_list( &list_head -> priority_list_entry, list_pointer);
+    }
+
+    pthread_mutex_unlock( &list_head -> list_lock);
+
+}
+
 void *CommUnit_routine()
 {
     /* The last reset time */
@@ -169,8 +239,8 @@ void *CommUnit_routine()
     zlog_info(category_debug,"[CommUnit] thread pool Initializing");
 #endif
     /* Initialize the threadpool with specified number of worker threads
-       according to the data stored in the serverconfig file. */
-    thpool = thpool_init(config.number_worker_threads);
+       according to the data stored in the configuration file. */
+    thpool = thpool_init(common_config.number_worker_threads);
 
 #ifdef debugging
     zlog_info(category_debug, "[CommUnit] thread pool Initialized");
@@ -263,7 +333,7 @@ void *CommUnit_routine()
             current_head = ListEntry(current_entry, BufferListHead,
                                      priority_list_entry);
 
-            if(current_head -> priority_nice !=config.time_critical_priority)
+            if(current_head -> priority_nice !=common_config.time_critical_priority)
                 break;
             pthread_mutex_lock( &current_head -> list_lock);
 
@@ -405,9 +475,7 @@ ErrorCode startThread(pthread_t *thread, void *( *start_routine)(void *),
     }
 
     return WORK_SUCCESSFULLY;
-
 }
-
 
 int get_system_time()
 {

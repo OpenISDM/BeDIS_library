@@ -380,7 +380,26 @@ typedef struct coordinates{
 
 } Coordinates;
 
+typedef struct {
+
+    /*The number of worker threads used by the communication unit for sending
+      and receiving packets.*/
+    int number_worker_threads;
+
+    /* Priority levels at which buffer lists are processed by the worker threads
+     */
+    int time_critical_priority;
+    int high_priority;
+    int normal_priority;
+    int low_priority;
+
+} CommonConfig;
+
+
 /* Global variables */
+
+/* The struct for storing common information between Gateway and Server*/
+CommonConfig common_config;
 
 /* The struct for storing necessary objects for the Wifi connection */
 sudp_config udp_config;
@@ -524,6 +543,23 @@ void init_Address_Map(AddressMapArray *address_map);
  */
 int is_in_Address_Map(AddressMapArray *address_map, char *find, int flag);
 
+/*
+  sort_priority_list:
+
+     The function arranges entries in the priority list in nondecreasing
+     order of priority.
+
+  Parameters:
+
+     config - The pointer points to the structure which stored config for
+              gateway.
+     list_head - The pointer points to the priority list head.
+
+  Return value:
+
+     None
+ */
+void *sort_priority_list(CommonConfig *common_config, BufferListHead *list_head);
 
 /*
   CommUnit_routine:
@@ -614,8 +650,7 @@ int strncasecmp(char const *str_a, char const *str_b, size_t len);
      Error_code: The error code for the corresponding error
  */
 ErrorCode extern startThread(pthread_t *thread, void *( *start_routine)(void *),
-                      void *arg);
-
+                             void *arg);
 
 /*
   strtok_save:
