@@ -88,7 +88,6 @@
 #include "LinkedList.h"
 #include "thpool.h"
 #include "zlog.h"
-#include "global_variables.h"
 
 /* Server API protocol version for communications between Server and Gateway.*/
 
