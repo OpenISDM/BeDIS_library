@@ -441,6 +441,19 @@ void trim_string_tail(char *message)
     }
 }
 
+void fetch_next_string(FILE *file, char *message, size_t message_size)
+{
+    char  config_setting[CONFIG_BUFFER_SIZE];
+    char  *config_message = NULL;
+        
+    fgets(config_setting, sizeof(config_setting), file);
+    config_message = strstr((char *)config_setting, DELIMITER);
+    config_message = config_message + strlen(DELIMITER);
+    trim_string_tail(config_message);
+    
+    memset(message, 0, message_size);
+    strcpy(message, config_message);
+}
 
 void ctrlc_handler(int stop) { ready_to_work = false; }
 

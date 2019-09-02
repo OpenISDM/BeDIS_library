@@ -597,6 +597,23 @@ void *CommUnit_routine();
  */
 void trim_string_tail(char *message);
 
+/*
+  fetch_next_string:
+
+     This function fetches next configuration string from openned configuration 
+     file handler.
+
+  Parameters:
+
+     file - The FILE handler of openned configuration file.
+     message - A pointer to the character array for storing the output string.
+     message_size - The length in number of bytes of the input message buffer 
+
+  Return value:
+
+     None
+ */
+void fetch_next_string(FILE *file, char *message, size_t message_size);
 
 /*
   ctrlc_handler:
