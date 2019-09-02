@@ -171,6 +171,9 @@
    be starved of attention. */
 #define MAX_STARVATION_TIME 600
 
+/* The number of hours of each day */
+#define HOURS_EACH_DAY 24
+
 
 typedef enum _ErrorCode{
 
