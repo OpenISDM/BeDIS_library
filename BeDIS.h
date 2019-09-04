@@ -290,6 +290,16 @@ typedef enum DeviceType {
 
 } DeviceType;
 
+/* BitMap of different object monitor types in order to support one object 
+   with multiple monitor types. */
+typedef enum ObjectMonitorType {
+
+    MONITOR_NORMAL = 0,
+    MONITOR_GEO_FENCE = 1,
+    MONITOR_PANIC = 2,
+    MONITOR_MOVEMENT = 4,
+
+} ObjectMonitorType;
 
 /* A node of buffer to store received data and/or data to be send */
 typedef struct {
