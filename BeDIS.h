@@ -173,6 +173,9 @@
 /* The number of hours of each day */
 #define HOURS_EACH_DAY 24
 
+/* The number of milliseconds of each day */
+#define MS_EACH_DAY 86400000
+
 
 typedef enum _ErrorCode{
 
