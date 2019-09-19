@@ -98,7 +98,7 @@ void init_Address_Map(AddressMapArray *address_map)
 int is_in_Address_Map(AddressMapArray *address_map, char *find, int flag)
 {
     int n;
-    if (flag==0)
+    if (flag == 0)
     {
  
         for(n = 0;n < MAX_NUMBER_NODES;n ++)
