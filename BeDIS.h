@@ -125,6 +125,9 @@
 #define DELIMITER_COMMA ","
 
 /* Parameter that marks the separation between records */
+#define DELIMITER_COLON ":"
+
+/* Parameter that marks the separation between records */
 #define DELIMITER_DOT "."
 
 /* Maximum number of characters in each line of config file */
@@ -269,13 +272,16 @@ typedef enum pkt_types {
     gateway_health_report = 5,
 	
     /* A pkt containing health report */
-    beacon_health_report = 6
+    beacon_health_report = 6,
+    
+    /* A pkt containing notification alarm */
+    send_notification_alarm = 7
 } PktType;
 
 
 typedef enum pkt_direction {
-	 /* pkt from server */
-	 from_server = 2,
+	/* pkt from server */
+	from_server = 2,
     /* pkt from gateway */
     from_gateway = 6,
     /* pkt from beacon */
@@ -303,6 +309,16 @@ typedef enum ObjectMonitorType {
     MONITOR_MOVEMENT = 4,
 
 } ObjectMonitorType;
+
+/* Type of notification alarms. */
+typedef enum AlarmType {
+
+    NO_ALARM = 0,
+    ALARM_LIGHT = 1,
+    ALARM_SOUND = 2,
+    ALARM_LIGHT_SOUND = 3
+
+} AlarmType;
 
 /* A node of buffer to store received data and/or data to be send */
 typedef struct {
