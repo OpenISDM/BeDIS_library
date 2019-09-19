@@ -89,7 +89,8 @@
 #include "thpool.h"
 #include "zlog.h"
 
-/* Server API protocol version for communications between Server and Gateway.*/
+/* Server API protocol version for communications between Server and 
+   Gateway.*/
 
 /* BOT_SERVER_API_VERSION_20 is compatible with BOT_GATEWAY_API_VERSION_10 */
 
@@ -105,6 +106,10 @@
 #define BOT_GATEWAY_API_VERSION_10 "1.0"
 
 #define BOT_GATEWAY_API_VERSION_LATEST "1.1"
+
+/* Agent API protocol version for Gateway to deploy commands to Agent. */
+
+#define BOT_AGENT_API_VERSION_LATEST "1.0"
 
 
 /* zlog category name */
