@@ -234,8 +234,9 @@ typedef enum _ErrorCode{
     E_MODULE_INITIALIZATION = 44,
     E_PARSE_UUID = 45,
     E_PARSE_JOIN_RESPONSE = 46,
+    E_API_PROTOCOL_FORMAT = 47,
 
-    MAX_ERROR_CODE = 47
+    MAX_ERROR_CODE = 48
 
 } ErrorCode;
 
@@ -263,19 +264,19 @@ typedef enum pkt_types {
 
     /* Request join from LBeacon */
     request_to_join = 1,
-	
+    
     /* Join response */
     join_response = 2,
 
     /* A pkt containing time critical tracked object data */
     time_critical_tracked_object_data = 3,
-	
+    
     /* A pkt containing tracked object data */
     tracked_object_data = 4,
     
-	/* A pkt containing health report */
+    /* A pkt containing health report */
     gateway_health_report = 5,
-	
+    
     /* A pkt containing health report */
     beacon_health_report = 6,
     
@@ -285,8 +286,8 @@ typedef enum pkt_types {
 
 
 typedef enum pkt_direction {
-	/* pkt from server */
-	from_server = 2,
+    /* pkt from server */
+    from_server = 2,
     /* pkt from gateway */
     from_gateway = 6,
     /* pkt from beacon */
