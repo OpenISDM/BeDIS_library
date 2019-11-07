@@ -16,7 +16,7 @@
 
   File Description:
 
-     This file contains code of functions used in both Gateway and LBeacon.
+     This file contains code of functions used in both gateway and Lbeacon.
 
   Version:
 

@@ -17,7 +17,7 @@
   File Description:
 
      This file contains the definitions and declarations of constants,
-     structures, and functions used in Server, Gateway and LBeacon.
+     structures, and functions used in server, gateway and Lbeacon.
 
   Version:
 
@@ -89,8 +89,8 @@
 #include "thpool.h"
 #include "zlog.h"
 
-/* Server API protocol version for communications between Server and 
-   Gateway.*/
+/* Server API protocol version for communications between server and 
+   gateway.*/
 
 /* BOT_SERVER_API_VERSION_20 is compatible with BOT_GATEWAY_API_VERSION_10 */
 
@@ -101,13 +101,13 @@
 
 #define BOT_SERVER_API_VERSION_LATEST "2.1"
 
-/* Gateway API protocol version for communicate between Gateway and LBeacon. */
+/* Gateway API protocol version for communicate between gateway and Lbeacon. */
 
 #define BOT_GATEWAY_API_VERSION_10 "1.0"
 
 #define BOT_GATEWAY_API_VERSION_LATEST "1.1"
 
-/* Agent API protocol version for Gateway to deploy commands to Agent. */
+/* Agent API protocol version for gateway to deploy commands to agent. */
 
 #define BOT_AGENT_API_VERSION_LATEST "1.0"
 
@@ -137,9 +137,6 @@
 
 /* Maximum number of characters in each line of config file */
 #define CONFIG_BUFFER_SIZE 4096
-
-/* The number of slots in the memory pool */
-#define SLOTS_IN_MEM_POOL 1024
 
 /* Number of characters in the uuid of a Bluetooth device */
 #define LENGTH_OF_UUID 33
@@ -172,7 +169,15 @@
 #define BUSY_WAITING_TIME_IN_PRIORITY_LIST_IN_MS 10
 
 /* Maximum number of nodes per star network */
+#ifdef BOT_SERVER
+#define MAX_NUMBER_NODES 4096
+#else 
+#ifdef BOT_GATEWAY
 #define MAX_NUMBER_NODES 16
+#else
+#define MAX_NUMBER_NODES 16
+#endif
+#endif
 
 /* Maximum length of time in seconds low priority message lists are allowed to 
    be starved of attention. */
@@ -380,10 +385,10 @@ typedef struct {
 
     char uuid[LENGTH_OF_UUID];
 
-    /* The network address of wifi link to the Gateway */
+    /* The network address of wifi link to the gateway */
     char net_address[NETWORK_ADDR_LENGTH];
 
-    /* The last LBeacon reported datetime */
+    /* The last Lbeacon reported datetime */
     int last_lbeacon_datetime;
 
     /* The last join request time */
@@ -432,7 +437,7 @@ typedef struct {
 
 /* Global variables */
 
-/* The struct for storing common information between Gateway and Server*/
+/* The struct for storing common information between gateway and server*/
 CommonConfig common_config;
 
 /* The struct for storing necessary objects for the Wifi connection */
@@ -441,17 +446,18 @@ sudp_config udp_config;
 /* The mempool for the buffer node structure to allocate memory */
 Memory_Pool node_mempool;
 
-/* The head of a list of buffers of data from LBeacons */
-BufferListHead LBeacon_receive_buffer_list_head;
+/* The head of a list of buffers of data for tracked object data and 
+   health report */
+BufferListHead data_receive_buffer_list_head;
 
-/* The head of a list of the return message for the Gateway join requests */
+/* The head of a list of the return message for the gateway join requests */
 BufferListHead NSI_send_buffer_list_head;
 
 /* The head of a list of buffers for return join request status */
 BufferListHead NSI_receive_buffer_list_head;
 
 /* The head of a list of buffers holding health reports to be processed and sent
-   to the Server */
+   to the server */
 BufferListHead BHM_send_buffer_list_head;
 
 /* The head of a list of buffers holding health reports from LBeacons */
@@ -465,7 +471,7 @@ BufferListHead priority_list_head;
 /* Flags */
 
 /*
-  Initialization of the Server components involves network activation that may
+  Initialization of the server components involves network activation that may
   take time. These flags enable each module to inform the main thread when its
   initialization completes.
  */
