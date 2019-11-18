@@ -163,13 +163,17 @@
 #define NORMAL_WAITING_TIME_IN_MS 1000
 
 /* Timeout interval in ms */
-#define BUSY_WAITING_TIME_IN_MS 500
+#define BUSY_WAITING_TIME_IN_MS 300
 
 /* Timeout interval in ms for busy waiting in processing priority list */
 #define BUSY_WAITING_TIME_IN_PRIORITY_LIST_IN_MS 50
 
 /* Timeout interval in ms for busy waiting in receiving wifi packet*/
 #define BUSY_WAITING_TIME_IN_WIFI_REXEIVE_PACKET_IN_MS 50
+
+/* Number of times to retry allocating memory, because memory allocating 
+   operation may have transient failure. */
+#define MEMORY_ALLOCATE_RETRY 5
 
 /* Maximum number of nodes per star network */
 #ifdef BOT_SERVER
