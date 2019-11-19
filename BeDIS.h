@@ -166,7 +166,7 @@
 #define NORMAL_WAITING_TIME_IN_MS 1000
 
 /* Timeout interval in ms */
-#define BUSY_WAITING_TIME_IN_MS 500
+#define BUSY_WAITING_TIME_IN_MS 300
 
 /* Timeout interval in ms for busy waiting in processing priority list */
 #define BUSY_WAITING_TIME_IN_PRIORITY_LIST_IN_MS 50
