@@ -333,8 +333,12 @@ void *CommUnit_routine()
             current_head = ListEntry(current_entry, BufferListHead,
                                      priority_list_entry);
 
-            if(current_head -> priority_nice !=common_config.time_critical_priority)
+            if(current_head -> priority_nice 
+               != common_config.time_critical_priority){
+
                 break;
+            }
+            
             pthread_mutex_lock( &current_head -> list_lock);
 
             if (is_entry_list_empty( &current_head->list_head) == true)
