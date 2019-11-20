@@ -163,7 +163,7 @@
 #define NORMAL_WAITING_TIME_IN_MS 1000
 
 /* Timeout interval in ms */
-#define BUSY_WAITING_TIME_IN_MS 300
+#define BUSY_WAITING_TIME_IN_MS 100
 
 /* Timeout interval in ms for busy waiting in processing priority list */
 #define BUSY_WAITING_TIME_IN_PRIORITY_LIST_IN_MS 50
@@ -387,7 +387,7 @@ typedef struct {
 } BufferListHead;
 
 
-/*  A struct for recording the network address and it's last update time */
+/*  A struct for recording the network address and its last update time */
 typedef struct {
 
     char uuid[LENGTH_OF_UUID];
