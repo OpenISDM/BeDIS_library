@@ -190,11 +190,8 @@
    be starved of attention. */
 #define MAX_STARVATION_TIME 600
 
-/* The number of hours of each day */
-#define HOURS_EACH_DAY 24
-
 /* The number of milliseconds of each day */
-#define MS_EACH_DAY 86400000
+#define MS_EACH_HOUR 3600000
 
 
 typedef enum _ErrorCode{
@@ -361,6 +358,9 @@ typedef struct {
     /* The size of the content */
     int content_size;
 
+    /* The uptime at which this buffer is recevied */
+    int uptime_at_receive;
+
 } BufferNode;
 
 
@@ -428,9 +428,12 @@ typedef struct coordinates{
 
 typedef struct {
 
-    /*The number of worker threads used by the communication unit for sending
+    /* The number of worker threads used by the communication unit for sending
       and receiving packets.*/
     int number_worker_threads;
+    /* The number of seconds used by CommUnit_routine() to omit out-of-date 
+       packets */
+    int omit_out_of_date_packet_in_sec;
 
     /* Priority levels at which buffer lists are processed by the worker threads
      */

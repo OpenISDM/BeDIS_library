@@ -298,13 +298,18 @@ void *CommUnit_routine()
                     current_node = ListEntry(list_entry, BufferNode,
                                              buffer_entry);
 
+                    if(uptime - current_node->uptime_at_receive > 
+                       common_config.omit_out_of_date_packet_in_sec){
+
+                       continue;
+                    } 
                     /* Call the function specified by the function pointer to 
                        do the work */
                     return_error_value = thpool_add_work(thpool,
-                                                     current_head -> function,
-                                                     current_node,
-                                                     current_head ->
-                                                     priority_nice);
+                                                         current_head -> function,
+                                                         current_node,
+                                                         current_head ->
+                                                         priority_nice);
                     did_work = true;
                     break;
                 }
