@@ -322,6 +322,7 @@ typedef enum ObjectMonitorType {
     MONITOR_GEO_FENCE = 1,
     MONITOR_PANIC = 2,
     MONITOR_MOVEMENT = 4,
+    MONITOR_LOCATION = 8,
 
 } ObjectMonitorType;
 
@@ -790,5 +791,25 @@ int extern get_clock_time();
      None
 */
 void sleep_t(int wait_time);
+
+/*
+  is_in_active_hours:
+
+     This function checks whether current time is in active hours.
+
+  Parameters:
+
+     start_hour - start clock of active duration
+
+     end_hour - end clock of active duration
+
+  Return value:
+
+     1: current time is in active hours
+     0: otherwise
+
+ */
+
+int is_in_active_hours(int start_hour, int end_hour);
 
 #endif

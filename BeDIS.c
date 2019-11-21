@@ -579,3 +579,31 @@ void sleep_t(int wait_time)
     usleep(wait_time);
 #endif
 }
+
+int is_in_active_hours(int start_hour, int end_hour){
+
+    time_t current_time = get_system_time();
+    struct tm ts;
+    char string_hour[80];
+    int current_hour = 0;
+
+    // get current hour
+    ts = *localtime(&current_time);
+    strftime(string_hour, sizeof(string_hour), "%H", &ts);
+    current_hour = atoi(string_hour);
+
+    if(start_hour < end_hour){
+        if(current_hour < start_hour || 
+           end_hour < current_hour){
+
+            return 0;
+        }
+    }else{
+        if(end_hour < current_hour && 
+           current_hour < start_hour){
+               
+            return 0;
+        }
+    }
+    return 1;
+}
