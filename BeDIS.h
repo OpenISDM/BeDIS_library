@@ -190,9 +190,11 @@
    be starved of attention. */
 #define MAX_STARVATION_TIME 600
 
-/* The number of milliseconds of each day */
+/* The number of milliseconds of each hour */
 #define MS_EACH_HOUR 3600000
 
+/* The number of seconds of each minute */
+#define SECONDS_EACH_MINUTE 60
 
 typedef enum _ErrorCode{
 
