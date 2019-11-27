@@ -193,9 +193,6 @@
 /* The number of milliseconds of each hour */
 #define MS_EACH_HOUR 3600000
 
-/* The number of seconds of each minute */
-#define SECONDS_EACH_MINUTE 60
-
 typedef enum _ErrorCode{
 
     WORK_SUCCESSFULLY = 0,
@@ -794,24 +791,5 @@ int extern get_clock_time();
 */
 void sleep_t(int wait_time);
 
-/*
-  is_in_active_hours:
-
-     This function checks whether current time is in active hours.
-
-  Parameters:
-
-     start_hour - start clock of active duration
-
-     end_hour - end clock of active duration
-
-  Return value:
-
-     1: current time is in active hours
-     0: otherwise
-
- */
-
-int is_in_active_hours(int start_hour, int end_hour);
 
 #endif
