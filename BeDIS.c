@@ -301,6 +301,7 @@ void *CommUnit_routine()
                     if(uptime - current_node->uptime_at_receive > 
                        common_config.omit_out_of_date_packet_in_sec){
 
+                       mp_free(&node_mempool, current_node);
                        continue;
                     } 
                     /* Call the function specified by the function pointer to 
