@@ -699,6 +699,24 @@ void ctrlc_handler(int stop);
 
 int strncasecmp(char const *str_a, char const *str_b, size_t len);
 
+/*
+  strtolowercase:
+
+     This function translates string to lower case
+
+  Parameters:
+
+     source_str - the original string to be translate
+
+     buf - the output buffer to store the result string with lower case
+     
+     buf_len - number of characters in the size of buf
+
+  Return value:
+     0: if the two strings exactly match
+ */
+
+ErrorCode strtolowercase(char const * source_str, char * buf, size_t buf_len);
 
 /*
   startThread:

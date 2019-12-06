@@ -484,6 +484,21 @@ int strncmp_caseinsensitive(char const *str_a, char const *str_b, size_t len)
     return 0;
 }
 
+ErrorCode strtolowercase(char const * source_str, char * buf, size_t buf_len){
+    
+    int i = 0;
+    int str_len = strlen(source_str);
+
+    if(buf_len < str_len)
+        return E_BUFFER_SIZE;
+
+    for(i = 0; i < str_len; i++){
+        buf[i] = tolower((unsigned char)source_str[i]);
+    }
+
+    return WORK_SUCCESSFULLY;
+}
+
 ErrorCode startThread(pthread_t *thread, void *( *start_routine)(void *),
                       void *arg)
 {
