@@ -176,15 +176,7 @@
 #define MEMORY_ALLOCATE_RETRY 5
 
 /* Maximum number of nodes per star network */
-#ifdef BOT_SERVER
 #define MAX_NUMBER_NODES 4096
-#else 
-#ifdef BOT_GATEWAY
-#define MAX_NUMBER_NODES 16
-#else
-#define MAX_NUMBER_NODES 16
-#endif
-#endif
 
 /* Maximum length of time in seconds low priority message lists are allowed to 
    be starved of attention. */
