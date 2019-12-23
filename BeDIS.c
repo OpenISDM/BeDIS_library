@@ -304,8 +304,8 @@ void *CommUnit_routine()
                        mp_free(&node_mempool, current_node);
                        continue;
                     } 
-                    /* Call the function specified by the function pointer to 
-                       do the work */
+                    /* Have a worker thread execute the function specified by the 
+                    function pointer to do the work */
                     return_error_value = thpool_add_work(thpool,
                                                          current_head -> function,
                                                          current_node,
