@@ -173,7 +173,7 @@
 
 /* Number of times to retry allocating memory, because memory allocating 
    operation may have transient failure. */
-#define MEMORY_ALLOCATE_RETRY 5
+#define MEMORY_ALLOCATE_RETRIES 5
 
 /* Maximum number of nodes per star network */
 #define MAX_NUMBER_NODES 4096
@@ -281,7 +281,7 @@ typedef enum pkt_types {
     beacon_health_report = 6,
     
     /* A pkt containing notification alarm */
-    send_notification_alarm = 7
+    notification_alarm = 7
 } PktType;
 
 
@@ -398,7 +398,7 @@ typedef struct {
 
 typedef struct {
 
-    /* A per array lock for the AddressMapArray when reading and update data */
+    /* A per array lock for the AddressMapArray when read and update data */
     pthread_mutex_t list_lock;
 
     /* A Boolean array in which ith element records whether the ith address map
@@ -423,9 +423,10 @@ typedef struct {
     /* The number of worker threads used by the communication unit for sending
       and receiving packets.*/
     int number_worker_threads;
-    /* The number of seconds used by CommUnit_routine() to omit out-of-date 
+    /* The number of seconds used by CommUnit_routine() to decide whether an 
+    old packet is out-of-date 
        packets */
-    int omit_out_of_date_packet_in_sec;
+    int min_age_out_of_date_packet_in_sec;
 
     /* Priority levels at which buffer lists are processed by the worker threads
      */
@@ -531,7 +532,7 @@ char decimal_to_hex(int number);
   init_buffer:
 
      The function fills the attributes of the head of a list of buffers to be 
-     processed by another thread, including the function called process 
+     processed by another thread, including the function called to process 
      buffer contents, the argument of the function and the priority level at 
      which the function is to be executed.
 
@@ -607,9 +608,10 @@ void *sort_priority_list(CommonConfig *common_config, BufferListHead *list_head)
   CommUnit_routine:
 
      The function is executed by the main thread of the communication unit that
-     is responsible for sending and receiving packets to and from the sever and
-     LBeacons after the NSI module has initialized WiFi networks. It creates
-     threads to carry out the communication process.
+     is responsible for monitoring the prioritized buffer lists containing packet
+     to be sent and received. After the NSI module has initialized WiFi 
+     networks, It creates work item for each send or received packet and have 
+     the work done by a thread from the thread pool.
 
   Parameters:
 
@@ -769,7 +771,6 @@ char *strtok_save(char *str, char *delim, char **saveptr);
 */
 int extern get_system_time();
 
-
 /*
   get_clock_time:
 
@@ -785,6 +786,22 @@ int extern get_system_time();
 */
 int extern get_clock_time();
 
+/*
+  display_time:
+
+     The function gets the current date time and displays the current date time
+     in debug logs.
+
+  Parameters:
+
+     None
+
+  Return value:
+
+     None
+
+ */
+int display_time(void);
 
 /*
   sleep_t:

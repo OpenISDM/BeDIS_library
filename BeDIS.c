@@ -299,7 +299,7 @@ void *CommUnit_routine()
                                              buffer_entry);
 
                     if(uptime - current_node->uptime_at_receive > 
-                       common_config.omit_out_of_date_packet_in_sec){
+                       common_config.min_age_out_of_date_packet_in_sec){
 
                        mp_free(&node_mempool, current_node);
                        continue;
