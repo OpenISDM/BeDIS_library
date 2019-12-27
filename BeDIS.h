@@ -83,23 +83,13 @@
 #include <limits.h>
 #include <signal.h>
 #include <time.h>
+#include "Common.h"
 #include "Mempool.h"
 #include "UDP_API.h"
 #include "LinkedList.h"
 #include "thpool.h"
 #include "zlog.h"
 
-/* Server API protocol version for communications between server and 
-   gateway.*/
-
-/* BOT_SERVER_API_VERSION_20 is compatible with BOT_GATEWAY_API_VERSION_10 */
-
-/* BOT_SERVER_API_VERSION_LATEST=2.1 is compatible with both 
-   BOT_GATEWAY_API_VERSION_10 and BOT_GATEWAY_API_VERSION_LATEST=1.1 */
-   
-#define BOT_SERVER_API_VERSION_20 "2.0"
-
-#define BOT_SERVER_API_VERSION_LATEST "2.1"
 
 /* Gateway API protocol version for communicate between gateway and Lbeacon. */
 
@@ -147,14 +137,8 @@
 /* Number of bytes in the string format of epoch time */
 #define LENGTH_OF_EPOCH_TIME 11
 
-/* Length of the IP address in byte */
-#define NETWORK_ADDR_LENGTH 16
-
 /* Length of the IP address in Hex */
 #define NETWORK_ADDR_LENGTH_HEX 8
-
-/* The size of message to be sent over WiFi in bytes */
-#define WIFI_MESSAGE_LENGTH 4096
 
 /* Length of coordinates in number of bits */
 #define COORDINATE_LENGTH 64
@@ -256,54 +240,6 @@ typedef enum _HealthStatus {
     MAX_STATUS = 2
 
 } HealthStatus;
-
-
-typedef enum pkt_types {
-    /* Unknown type of pkt type */
-    undefined = 0,
-
-    /* Request join from LBeacon */
-    request_to_join = 1,
-    
-    /* Join response */
-    join_response = 2,
-
-    /* A pkt containing time critical tracked object data */
-    time_critical_tracked_object_data = 3,
-    
-    /* A pkt containing tracked object data */
-    tracked_object_data = 4,
-    
-    /* A pkt containing health report */
-    gateway_health_report = 5,
-    
-    /* A pkt containing health report */
-    beacon_health_report = 6,
-    
-    /* A pkt containing notification alarm */
-    notification_alarm = 7
-} PktType;
-
-
-typedef enum pkt_direction {
-    /* pkt from server */
-    from_server = 2,
-    /* pkt from gateway */
-    from_gateway = 6,
-    /* pkt from beacon */
-    from_beacon = 8
-
-} PktDirection;
-
-
-/* Type of device to be tracked. */
-typedef enum DeviceType {
-
-    BR_EDR = 0,
-    BLE = 1,
-    max_type = 2
-
-} DeviceType;
 
 /* BitMap of different object monitor types in order to support one object 
    with multiple monitor types. */
