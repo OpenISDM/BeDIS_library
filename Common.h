@@ -85,8 +85,8 @@ typedef enum pkt_types {
     /* A pkt containing notification alarm */
     notification_alarm = 7,
 
-    /* A pkt containing reload setting */
-    setting_reload = 8,
+    /* A pkt containing IPC command */
+    ipc_command = 8,
 } PktType;
 
 typedef enum pkt_direction {
