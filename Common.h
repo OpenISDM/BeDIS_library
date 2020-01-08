@@ -108,6 +108,7 @@ typedef enum IPCCommand {
 
     CMD_NONE = 0,
     CMD_RELOAD_GEO_FENCE_SETTING = 1,
+    CMD_RELOAD_MONITOR_SETTING = 2,
     CMD_MAX,
 
 } IPCCommand;
