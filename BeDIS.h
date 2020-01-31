@@ -223,7 +223,7 @@ typedef enum _ErrorCode{
     MAX_ERROR_CODE = 48
 
 } ErrorCode;
-
+ 
 /* Type of join response. */
 typedef enum _JoinStatus{
     JOIN_ACK = 0,
@@ -262,6 +262,13 @@ typedef enum AlarmType {
     ALARM_LIGHT_SOUND = 3
 
 } AlarmType;
+
+typedef enum AddressMapType {
+
+    ADDRESS_MAP_TYPE_GATEWAY = 0,
+    ADDRESS_MAP_TYPE_LBEACON = 1
+
+} AddressMapType;
 
 /* A node of buffer to store received data and/or data to be send */
 typedef struct {
@@ -314,7 +321,6 @@ typedef struct {
 
 } BufferListHead;
 
-
 /*  A struct for recording the network address and its last update time */
 typedef struct {
 
@@ -322,12 +328,6 @@ typedef struct {
 
     /* The network address of wifi link to the gateway */
     char net_address[NETWORK_ADDR_LENGTH];
-
-    /* The last Lbeacon reported datetime */
-    int last_lbeacon_datetime;
-
-    /* The last join request time */
-    int last_request_time;
 
 } AddressMap;
 
@@ -340,6 +340,8 @@ typedef struct {
     /* A Boolean array in which ith element records whether the ith address map
        is in use. */
     bool in_use[MAX_NUMBER_NODES];
+
+    int last_reported_timestamp[MAX_NUMBER_NODES];
 
     AddressMap address_map_list[MAX_NUMBER_NODES];
 
@@ -511,16 +513,81 @@ void init_Address_Map(AddressMapArray *address_map);
   Parameters:
 
      address_map - A pointer to the head of the AddressMap.
-     find - The pointer to the network address to compare.
-     flag - 0: find net_address
-            1: find uuid
+     type - The type of entries in the AddressMap.
+     identifer - The pointer to the IP address or UUID identifer
             
 
   Return value:
 
      int: If not find, return -1, else return its array number.
  */
-int is_in_Address_Map(AddressMapArray *address_map, char *find, int flag);
+int is_in_Address_Map(AddressMapArray *address_map, 
+                      AddressMapType type,
+                      char *identifer);
+
+/*
+  update_entry_in_Address_Map:
+
+     This function occupies one entry space in address map and copy the 
+     input identifer to the newly occupied entry.
+
+  Parameters:
+
+     address_map - A pointer to the head of the AddressMap.
+     index - The index of address_map to be occupied
+     type - The type of entries in the AddressMap.
+     address - The pointer to the IP address
+     uuid - The pointer to the UUID 
+            
+
+  Return value:
+
+     Error_code: The error code for the corresponding error
+ */
+ErrorCode update_entry_in_Address_Map(AddressMapArray *address_map,
+                                      int index,
+                                      AddressMapType type, 
+                                      char *address,
+                                      char *uuid);
+
+/*
+  update_report_timestamp_in_Address_Map:
+
+     This function updates the last reported timestamp of the input identifer
+
+  Parameters:
+
+     address_map - A pointer to the head of the AddressMap.
+     type - The type of entries in the AddressMap.
+     identifer - The pointer to the IP address or UUID identifer
+            
+
+  Return value:
+
+     Error_code: The error code for the corresponding error
+ */
+ErrorCode update_report_timestamp_in_Address_Map(AddressMapArray *address_map,
+                                                 AddressMapType type, 
+                                                 char *identifer);
+
+/*
+  release_not_used_entry_from_Address_Map:
+
+     This function releases the out-of-date entries on which the 
+     last_reported_timestamp is not updated for long time.
+
+  Parameters:
+
+     address_map - A pointer to the head of the AddressMap.
+     tolerance_duration - The time period in which we expected the 
+                          last_reported_timestamp to be updated.
+
+  Return value:
+
+     Error_code: The error code for the corresponding error
+ */
+ErrorCode release_not_used_entry_from_Address_Map(AddressMapArray *address_map,
+                                                  int tolerance_duration);
 
 /*
   sort_priority_list:

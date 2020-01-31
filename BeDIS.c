@@ -95,34 +95,36 @@ void init_Address_Map(AddressMapArray *address_map)
 }
 
 
-int is_in_Address_Map(AddressMapArray *address_map, char *find, int flag)
+int is_in_Address_Map(AddressMapArray *address_map, 
+                      AddressMapType type, 
+                      char *identifer)
 {
     int n;
-    if (flag == 0)
+    if (type == ADDRESS_MAP_TYPE_GATEWAY)
     {
  
         for(n = 0;n < MAX_NUMBER_NODES;n ++)
         {
             if (address_map -> in_use[n] == true && 
                 strncmp(address_map -> address_map_list[n].net_address, 
-                find, NETWORK_ADDR_LENGTH)== 0)
+                identifer, NETWORK_ADDR_LENGTH)== 0)
             {
                     return n;
             }
         }
     }
-    else if(flag ==1)
+    else if(type == ADDRESS_MAP_TYPE_LBEACON)
     {
         for(n = 0;n < MAX_NUMBER_NODES; n ++){
             if (address_map -> in_use[n] == true && 
                 strncmp(address_map -> address_map_list[n].uuid, 
-                find, LENGTH_OF_UUID) == 0)
+                identifer, LENGTH_OF_UUID) == 0)
             {
                 zlog_debug(category_debug,
                             "uuid matached n=%d [%s] [%s] [%d]\n", 
                             n, 
                             address_map->address_map_list[n].uuid, 
-                            find, 
+                            identifer, 
                             LENGTH_OF_UUID);
                     return n;
                    
@@ -130,6 +132,82 @@ int is_in_Address_Map(AddressMapArray *address_map, char *find, int flag)
         }
     }
     return -1;
+}
+
+ErrorCode update_entry_in_Address_Map(AddressMapArray *address_map,
+                                      int index,
+                                      AddressMapType type,
+                                      char *address,
+                                      char *uuid)
+{
+
+    address_map -> in_use[index] = true;
+    address_map -> last_reported_timestamp[index] = get_clock_time();
+
+    if(type == ADDRESS_MAP_TYPE_GATEWAY){
+
+        memset(address_map->address_map_list[index].net_address, 0, 
+               NETWORK_ADDR_LENGTH);
+
+        strncpy(address_map->address_map_list[index].net_address, 
+                address, strlen(address));
+
+    }else if(type == ADDRESS_MAP_TYPE_LBEACON){
+                
+        memset(address_map->address_map_list[index].uuid, 0, 
+               LENGTH_OF_UUID);
+        strncpy(address_map->address_map_list[index].uuid, 
+                uuid, strlen(uuid));         
+
+        memset(address_map->address_map_list[index].net_address, 0, 
+               NETWORK_ADDR_LENGTH);
+
+        strncpy(address_map->address_map_list[index].net_address, 
+                address, strlen(address));
+    }
+
+    return WORK_SUCCESSFULLY;
+}
+
+ErrorCode update_report_timestamp_in_Address_Map(AddressMapArray *address_map,
+                                                 AddressMapType type, 
+                                                 char *identifer)
+{
+    int index = -1;
+
+    index = is_in_Address_Map(address_map, type, identifer);
+
+    if(index != -1){
+        
+        address_map->last_reported_timestamp[index] = get_clock_time();
+
+    }
+
+    return WORK_SUCCESSFULLY;
+
+}
+
+ErrorCode release_not_used_entry_from_Address_Map(AddressMapArray *address_map,
+                                                  int tolerance_duration)
+{
+    int i;
+    int current_time = get_clock_time();
+
+    for(i = 0;i < MAX_NUMBER_NODES;i ++)
+    {
+        if (address_map -> in_use[i] == true && 
+            (current_time - address_map ->last_reported_timestamp[i] > 
+             tolerance_duration)){
+
+            address_map -> in_use[i] = false;
+            printf("release index [%d], net_address [%s], uuid [%s]\n",
+                   i, 
+                   address_map->address_map_list[i].net_address, 
+                   address_map->address_map_list[i].uuid);
+        }
+    }
+
+    return WORK_SUCCESSFULLY;
 }
 
 void *sort_priority_list(CommonConfig *common_config, BufferListHead *list_head){
