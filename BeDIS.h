@@ -128,6 +128,9 @@
 /* Maximum number of characters in each line of config file */
 #define CONFIG_BUFFER_SIZE 4096
 
+/* Number of characters of API version */
+#define LENGTH_OF_API_VERSION 16
+
 /* Number of characters in the uuid of a Bluetooth device */
 #define LENGTH_OF_UUID 33
 
@@ -326,9 +329,11 @@ typedef struct {
 
     char uuid[LENGTH_OF_UUID];
 
-    /* The network address of wifi link to the gateway */
+    /* The network address */
     char net_address[NETWORK_ADDR_LENGTH];
-
+    
+    char API_version[LENGTH_OF_API_VERSION];
+      
 } AddressMap;
 
 
@@ -342,7 +347,7 @@ typedef struct {
     bool in_use[MAX_NUMBER_NODES];
 
     int last_reported_timestamp[MAX_NUMBER_NODES];
-
+    
     AddressMap address_map_list[MAX_NUMBER_NODES];
 
 } AddressMapArray;
@@ -538,8 +543,8 @@ int is_in_Address_Map(AddressMapArray *address_map,
      type - The type of entries in the AddressMap.
      address - The pointer to the IP address
      uuid - The pointer to the UUID 
-            
-
+     API_version - API version used by the device
+     
   Return value:
 
      Error_code: The error code for the corresponding error
@@ -548,7 +553,8 @@ ErrorCode update_entry_in_Address_Map(AddressMapArray *address_map,
                                       int index,
                                       AddressMapType type, 
                                       char *address,
-                                      char *uuid);
+                                      char *uuid,
+                                      char *API_version);
 
 /*
   update_report_timestamp_in_Address_Map:
@@ -561,7 +567,6 @@ ErrorCode update_entry_in_Address_Map(AddressMapArray *address_map,
      type - The type of entries in the AddressMap.
      identifer - The pointer to the IP address or UUID identifer
             
-
   Return value:
 
      Error_code: The error code for the corresponding error

@@ -138,14 +138,20 @@ ErrorCode update_entry_in_Address_Map(AddressMapArray *address_map,
                                       int index,
                                       AddressMapType type,
                                       char *address,
-                                      char *uuid)
+                                      char *uuid,
+                                      char *API_version)
 {
+    int current_time = get_system_time();
 
     address_map -> in_use[index] = true;
-    address_map -> last_reported_timestamp[index] = get_clock_time();
+    address_map -> last_reported_timestamp[index] = current_time;
+    memset(address_map->address_map_list[index].API_version, 0,
+           LENGTH_OF_API_VERSION);
+    strncpy(address_map->address_map_list[index].API_version, 
+            API_version, strlen(API_version));
 
     if(type == ADDRESS_MAP_TYPE_GATEWAY){
-
+        
         memset(address_map->address_map_list[index].net_address, 0, 
                NETWORK_ADDR_LENGTH);
 
@@ -153,7 +159,7 @@ ErrorCode update_entry_in_Address_Map(AddressMapArray *address_map,
                 address, strlen(address));
 
     }else if(type == ADDRESS_MAP_TYPE_LBEACON){
-                
+        
         memset(address_map->address_map_list[index].uuid, 0, 
                LENGTH_OF_UUID);
         strncpy(address_map->address_map_list[index].uuid, 
@@ -174,12 +180,13 @@ ErrorCode update_report_timestamp_in_Address_Map(AddressMapArray *address_map,
                                                  char *identifer)
 {
     int index = -1;
+    int current_time = get_system_time();
 
     index = is_in_Address_Map(address_map, type, identifer);
 
     if(index != -1){
         
-        address_map->last_reported_timestamp[index] = get_clock_time();
+        address_map -> last_reported_timestamp[index] = current_time;
 
     }
 
