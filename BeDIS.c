@@ -198,7 +198,7 @@ ErrorCode release_not_used_entry_from_Address_Map(AddressMapArray *address_map,
                                                   int tolerance_duration)
 {
     int i;
-    int current_time = get_clock_time();
+    int current_time = get_system_time();
 
     for(i = 0;i < MAX_NUMBER_NODES;i ++)
     {
