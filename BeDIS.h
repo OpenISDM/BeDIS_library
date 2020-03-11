@@ -193,6 +193,9 @@
 /* Number of charactures in the time format of %Y-%m-%d %H:%M:%S */
 #define LENGTH_OF_TIME_FORMAT 80
 
+/* Number of objects been monitored in each covered area */
+#define NUMBER_OBJECTS_PER_AREA 512 
+
 typedef enum _ErrorCode{
 
     WORK_SUCCESSFULLY = 0,
