@@ -255,8 +255,9 @@ typedef enum _ErrorCode{
     E_PARSE_UUID = 45,
     E_PARSE_JOIN_RESPONSE = 46,
     E_API_PROTOCOL_FORMAT = 47,
+    E_CONFIG_SETTING = 48,
 
-    MAX_ERROR_CODE = 48
+    MAX_ERROR_CODE = 49
 
 } ErrorCode;
  
@@ -729,6 +730,22 @@ void trim_string_tail(char *message);
      None
  */
 void fetch_next_string(FILE *file, char *message, size_t message_size);
+
+/*
+  is_numeric:
+
+     This function checks whether the input value is numeric or not.
+
+  Parameters:
+
+     str_value - the input value string to be checked
+
+  Return value:
+
+     True - the input value is numeric. 
+     Flase - otherwise
+ */
+bool is_numeric(char *str_value);
 
 /*
   ctrlc_handler:

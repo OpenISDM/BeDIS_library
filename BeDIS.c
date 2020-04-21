@@ -588,6 +588,26 @@ void fetch_next_string(FILE *file, char *message, size_t message_size)
     strcpy(message, config_message);
 }
 
+bool is_numeric(char * str_value)
+{
+    size_t len = 0;
+    int i = 0;
+    
+    len = strlen(str_value);
+    for(i = 0 ; i < len ; i++){
+        if(str_value[i] < '0' || str_value[i] > '9'){
+            if(i == 0 && str_value[i] == '-'){
+                continue;
+            }
+            else{
+                return false;
+            }
+        }
+    }
+    
+    return true;
+}
+
 void ctrlc_handler(int stop) { ready_to_work = false; }
 
 int strncmp_caseinsensitive(char const *str_a, char const *str_b, size_t len)
