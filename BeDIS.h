@@ -198,6 +198,9 @@
 /* Number of objects been monitored in each covered area */
 #define NUMBER_OBJECTS_PER_AREA 512 
 
+/* Number of Lbeacons monitored in each covered area */
+#define NUMBER_LBEACONS_PER_AREA 512 
+
 /* Error code for failure of opening self-check and version files */
 #define SELF_CHECK_ERROR_OPEN_FILE 9999
 
@@ -799,6 +802,27 @@ int strncasecmp(char const *str_a, char const *str_b, size_t len);
  */
 
 ErrorCode strtolowercase(char const * source_str, char * buf, size_t buf_len);
+
+/*
+  remove_uuid_hyphen:
+
+     This function remove hypen from uuid string
+
+  Parameters:
+
+     source_str - the original string
+
+     buf - the output buffer to store the result string 
+     
+     buf_len - number of characters in the size of buf
+
+  Return value:
+
+     ErrorCode - WORK_SUCCESSFULLY: work successfully.
+ */
+
+ErrorCode remove_uuid_hyphen(char const * source_str, char * buf, size_t buf_len);
+
 
 /*
   startThread:

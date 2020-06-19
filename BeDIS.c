@@ -642,6 +642,24 @@ ErrorCode strtolowercase(char const * source_str, char * buf, size_t buf_len){
     return WORK_SUCCESSFULLY;
 }
 
+ErrorCode remove_uuid_hyphen(char const * source_str, char * buf, size_t buf_len){
+
+    int i = 0; 
+    int dest_index = 0;
+
+    for(i = 0 ; i < strlen(source_str) ; i ++){
+        if(source_str[i] >= '0' && source_str[i] <= '9'){
+            if(buf_len > dest_index){
+                buf[dest_index] = source_str[i];
+                dest_index ++;
+            }else
+                return E_INPUT_PARAMETER;
+        }
+    }
+    buf[dest_index] = '\0';
+    return WORK_SUCCESSFULLY;
+}
+
 ErrorCode startThread(pthread_t *thread, void *( *start_routine)(void *),
                       void *arg)
 {
