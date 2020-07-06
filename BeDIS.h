@@ -290,15 +290,9 @@ typedef enum ObjectMonitorType {
     MONITOR_PANIC = 2,
     MONITOR_MOVEMENT = 4,
     MONITOR_LOCATION = 8,
+    MONITOR_BED_CLEARNESS = 16,
 
 } ObjectMonitorType;
-
-/* BitMap of different object types. */
-typedef enum ObjectType {
-
-    OBJECT_TYPE_WARD_BED = 100000001,
-
-} ObjectType;
 
 /* Type of notification alarms. */
 typedef enum AlarmType {
