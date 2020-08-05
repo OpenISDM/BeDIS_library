@@ -192,10 +192,10 @@
 #define LENGTH_OF_TIME_FORMAT 80
 
 /* Number of objects been monitored in each covered area */
-#define NUMBER_OBJECTS_PER_AREA 512 
+#define NUMBER_OBJECTS_PER_AREA 1024 
 
 /* Number of Lbeacons monitored in each covered area */
-#define NUMBER_LBEACONS_PER_AREA 512 
+#define NUMBER_LBEACONS_PER_AREA 256
 
 /* Error code for failure of opening self-check and version files */
 #define SELF_CHECK_ERROR_OPEN_FILE 9999
