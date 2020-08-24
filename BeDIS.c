@@ -60,6 +60,18 @@ char decimal_to_hex(int number)
     return c;
 }
 
+int hex_to_decimal(char hex_number){
+    
+    int a = 0;
+    
+    if(hex_number >= 'A' )
+        a = hex_number - 'A' + 10;
+    else
+        a = hex_number - '0';
+    
+    return a;
+}
+
 void init_buffer(BufferListHead *buffer_list_head, void (*function_p)(void *),
                  int priority_nice)
 {

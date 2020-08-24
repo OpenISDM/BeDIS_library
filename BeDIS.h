@@ -503,7 +503,7 @@ unsigned int twoc(int in, int t);
 /*
   decimal_to_hex:
 
-     This function translates the input number from demical to hex format 
+     This function translates the input number from decimal to hex format 
 
   Parameters:
 
@@ -514,6 +514,21 @@ unsigned int twoc(int in, int t);
      the hex format of the input number
  */
 char decimal_to_hex(int number);
+
+/*
+  hex_to_decimal:
+
+     This function translates the input number from hex format to decimal 
+
+  Parameters:
+
+     hex_number - the input hex number
+
+  Return value:
+
+     the decimal format of the input number
+ */
+int hex_to_decimal(char hex_number);
 
 
 /*
