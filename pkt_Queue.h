@@ -57,7 +57,7 @@
    (The maximum UDP pkt size is 65535 bytes - 8 bytes UDP header - 
     20 bytes IP header = 65507 bytes) 
  */
-#define MESSAGE_LENGTH 65507
+#define MESSAGE_LENGTH (8192 + 512)
 
 /* The maximum length of the pkt Queue. */
 #define MAX_QUEUE_LENGTH 512
