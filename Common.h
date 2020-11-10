@@ -105,6 +105,9 @@ typedef enum pkt_direction {
     /* pkt from beacon */
     from_beacon = 8,
 
+    /* pkt from agent */
+    from_agent = 9,
+
 } PktDirection;
 
 typedef enum IPCCommand {
