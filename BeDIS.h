@@ -839,6 +839,27 @@ ErrorCode remove_uuid_hyphen(char const * source_str, char * buf, size_t buf_len
 
 
 /*
+  add_uuid_hyphen:
+
+     This function add hypen to uuid string
+
+  Parameters:
+
+     source_str - the original string
+
+     buf - the output buffer to store the result string 
+     
+     buf_len - number of characters in the size of buf
+
+  Return value:
+
+     ErrorCode - WORK_SUCCESSFULLY: work successfully.
+ */
+
+ErrorCode add_uuid_hyphen(char const * source_str, char * buf, size_t buf_len);
+
+
+/*
   startThread:
 
      This function initializes the specified thread. Threads initialized by
