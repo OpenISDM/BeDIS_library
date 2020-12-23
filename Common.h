@@ -113,31 +113,13 @@ typedef enum pkt_direction {
 typedef enum IPCCommand {
 
     CMD_NONE = 0,
-    CMD_RELOAD_GEO_FENCE_SETTING = 1,
+    //CMD_RELOAD_GEO_FENCE_SETTING = 1,
     CMD_STOP_LIGHT_ALARM = 2,
     CMD_RELOAD_LBEACON_SETTING = 3,
     CMD_MAX,
 
 } IPCCommand;
 
-/* Type of aspects of geo-fence to be reloaded. */
-typedef enum ReloadGeoFenceSetting {
-
-    /* No need to reload. */
-    GEO_FENCE_NONE = 0,
-
-    /* Reload both geo-fence list and monitored objects. */
-    GEO_FENCE_ALL = 1, 
-
-    /* Reload only geo-fence list. */
-    GEO_FENCE_LIST = 2,
-
-    /* Reload only geo-fence monitored objects */
-    GEO_FENCE_OBJECT = 3,
-
-    GEO_FENCE_MAX, 
-
-} ReloadGeoFenceSetting;
 
 /* Type of coverage of areas. */
 typedef enum AreaScope {
