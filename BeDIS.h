@@ -153,6 +153,9 @@
 #define NORMAL_WAITING_TIME_IN_MS 1000
 
 /* Timeout interval in ms */
+#define RELOAD_SETTING_WAITING_TIME_IN_MS 30000
+
+/* Timeout interval in ms */
 #define BUSY_WAITING_TIME_IN_MS 300
 
 /* Timeout interval in ms for busy waiting in processing priority list */
@@ -201,6 +204,9 @@
 
 /* Error code for failure of opening self-check and version files */
 #define SELF_CHECK_ERROR_OPEN_FILE 9999
+
+/* The area_id for public area */
+#define PUBLIC_AREA_ID 9999
 
 /* Number of times to retry open file, because file openning operation may have
    transient failure. */
@@ -286,7 +292,7 @@ typedef enum ObjectMonitorType {
     MONITOR_NORMAL = 0,
     MONITOR_GEO_FENCE = 1,
     MONITOR_PANIC = 2,
-    MONITOR_MOVEMENT = 4,
+    MONITOR_ACTIVITY = 4,
     MONITOR_LOCATION = 8,
     MONITOR_BED_CLEARNESS = 16,
 
