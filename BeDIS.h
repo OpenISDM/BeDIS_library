@@ -267,7 +267,15 @@ typedef enum _ErrorCode{
     MAX_ERROR_CODE = 49
 
 } ErrorCode;
- 
+
+/* Type of object*/
+typedef enum _ObjectType{
+    OBJECT_TYPE_DEVICE = 0,
+    OBJECT_TYPE_PEOPLE = 1
+
+} ObjectType;
+
+
 /* Type of join response. */
 typedef enum _JoinStatus{
     JOIN_ACK = 0,
@@ -299,14 +307,23 @@ typedef enum ObjectMonitorType {
 } ObjectMonitorType;
 
 /* Type of notification alarms. */
-typedef enum AlarmType {
+typedef enum LightAlarmType {
 
-    NO_ALARM = 0,
-    ALARM_LIGHT = 1,
-    ALARM_SOUND = 2,
-    ALARM_LIGHT_SOUND = 3
+    LIGHT_ALARM_DISABLED = 0,
+    LIGHT_ALARM_LIGHT = 1,
+    LIGHT_ALARM_SOUND = 2,
+    LIGHT_ALARM_LIGHT_SOUND = 3
 
-} AlarmType;
+} LightAlarmType;
+
+/* Type of LBeacon. */
+typedef enum _AlertType{
+    ALERT_TYPE_NO_ALERT   = 0,
+    ALERT_TYPE_GUI        = 1,
+    ALERT_TYPE_LIGHT      = 2,
+    ALERT_TYPE_BELL       = 4,
+    ALERT_TYPE_SMS        = 8,
+} AlertType;
 
 typedef enum AddressMapType {
 
