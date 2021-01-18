@@ -105,36 +105,42 @@ void init_Address_Map(AddressMapArray *address_map)
 
 int is_in_Address_Map(AddressMapArray *address_map, 
                       AddressMapType type, 
-                      char *identifer)
+                      char *identifier)
 {
     int n;
     if (type == ADDRESS_MAP_TYPE_GATEWAY)
     {
  
-        for(n = 0;n < MAX_NUMBER_NODES;n ++)
+        for(n = 0; n < MAX_NUMBER_NODES; n++)
         {
             if (address_map -> in_use[n] == true && 
-                strncmp(address_map -> address_map_list[n].net_address, 
-                identifer, NETWORK_ADDR_LENGTH)== 0)
+                strncmp(address_map -> address_map_list[n].identifier, 
+                        identifier, 
+                        LENGTH_OF_IDENTIFIER) == 0)
             {
-                    return n;
+                zlog_debug(category_debug,
+                           "unique_id matached n=%d [%s] [%s]\n", 
+                           n, 
+                           address_map->address_map_list[n].identifier, 
+                           identifier);
+                return n;
             }
         }
     }
     else if(type == ADDRESS_MAP_TYPE_LBEACON)
     {
-        for(n = 0;n < MAX_NUMBER_NODES; n ++){
+        for(n = 0; n < MAX_NUMBER_NODES; n++){
             if (address_map -> in_use[n] == true && 
-                strncmp(address_map -> address_map_list[n].uuid, 
-                identifer, LENGTH_OF_UUID) == 0)
+                strncmp(address_map -> address_map_list[n].identifier, 
+                        identifier, 
+                        LENGTH_OF_IDENTIFIER) == 0)
             {
                 zlog_debug(category_debug,
-                            "uuid matached n=%d [%s] [%s] [%d]\n", 
-                            n, 
-                            address_map->address_map_list[n].uuid, 
-                            identifer, 
-                            LENGTH_OF_UUID);
-                    return n;
+                           "uuid matached n=%d [%s] [%s]\n", 
+                           n, 
+                           address_map->address_map_list[n].identifier, 
+                           identifier);
+                return n;
                    
             }
         }
@@ -146,7 +152,7 @@ ErrorCode update_entry_in_Address_Map(AddressMapArray *address_map,
                                       int index,
                                       AddressMapType type,
                                       char *address,
-                                      char *uuid,
+                                      char *identifier,
                                       char *API_version)
 {
     int current_time = get_system_time();
@@ -160,6 +166,11 @@ ErrorCode update_entry_in_Address_Map(AddressMapArray *address_map,
 
     if(type == ADDRESS_MAP_TYPE_GATEWAY){
         
+        memset(address_map->address_map_list[index].identifier, 0, 
+               LENGTH_OF_IDENTIFIER);
+        strncpy(address_map->address_map_list[index].identifier, 
+                identifier, strlen(identifier)); 
+
         memset(address_map->address_map_list[index].net_address, 0, 
                NETWORK_ADDR_LENGTH);
 
@@ -168,10 +179,10 @@ ErrorCode update_entry_in_Address_Map(AddressMapArray *address_map,
 
     }else if(type == ADDRESS_MAP_TYPE_LBEACON){
         
-        memset(address_map->address_map_list[index].uuid, 0, 
-               LENGTH_OF_UUID);
-        strncpy(address_map->address_map_list[index].uuid, 
-                uuid, strlen(uuid));         
+        memset(address_map->address_map_list[index].identifier, 0, 
+               LENGTH_OF_IDENTIFIER);
+        strncpy(address_map->address_map_list[index].identifier, 
+                identifier, strlen(identifier));         
 
         memset(address_map->address_map_list[index].net_address, 0, 
                NETWORK_ADDR_LENGTH);
@@ -215,10 +226,10 @@ ErrorCode release_not_used_entry_from_Address_Map(AddressMapArray *address_map,
              tolerance_duration)){
 
             address_map -> in_use[i] = false;
-            printf("release index [%d], net_address [%s], uuid [%s]\n",
+            printf("release index [%d], net_address [%s], identifier [%s]\n",
                    i, 
                    address_map->address_map_list[i].net_address, 
-                   address_map->address_map_list[i].uuid);
+                   address_map->address_map_list[i].identifier);
         }
     }
 

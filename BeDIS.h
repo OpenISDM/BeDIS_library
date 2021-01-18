@@ -134,6 +134,9 @@
 /* Number of characters of API version */
 #define LENGTH_OF_API_VERSION 16
 
+/* Number of characters in the identifier of hardward components */
+#define LENGTH_OF_IDENTIFIER 33
+
 /* Number of characters in the uuid of a Bluetooth device */
 #define LENGTH_OF_UUID 33
 
@@ -386,7 +389,7 @@ typedef struct {
 /*  A struct for recording the network address and its last update time */
 typedef struct {
 
-    char uuid[LENGTH_OF_UUID];
+    char identifier[LENGTH_OF_IDENTIFIER];
 
     /* The network address */
     char net_address[NETWORK_ADDR_LENGTH];
@@ -627,7 +630,7 @@ int is_in_Address_Map(AddressMapArray *address_map,
      index - The index of address_map to be occupied
      type - The type of entries in the AddressMap.
      address - The pointer to the IP address
-     uuid - The pointer to the UUID 
+     identifier - The identifier of this component
      API_version - API version used by the device
      
   Return value:
@@ -638,7 +641,7 @@ ErrorCode update_entry_in_Address_Map(AddressMapArray *address_map,
                                       int index,
                                       AddressMapType type, 
                                       char *address,
-                                      char *uuid,
+                                      char *identifier,
                                       char *API_version);
 
 /*
