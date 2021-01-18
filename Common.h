@@ -113,7 +113,7 @@ typedef enum pkt_direction {
 typedef enum IPCCommand {
 
     CMD_NONE = 0,
-    //CMD_RELOAD_GEO_FENCE_SETTING = 1,
+    CMD_RELOAD_GEO_FENCE_SETTING = 1,
     CMD_STOP_LIGHT_ALARM = 2,
     CMD_RELOAD_LBEACON_SETTING = 3,
     CMD_MAX,
