@@ -1,5 +1,5 @@
 /*
-  2020 © Copyright (c) BiDaE Technology Inc. 
+  2021 © Copyright (c) BiDaE Technology Inc. 
   Provided under BiDaE SHAREWARE LICENSE-1.0 in the LICENSE.
 
   Project Name:
@@ -214,6 +214,12 @@
 /* Number of times to retry open file, because file openning operation may have
    transient failure. */
 #define FILE_OPEN_RETRY 5
+
+/* The maximum number of active violating objects in BOT system */
+#define MAX_ACTIVE_VIOLATING_OBJECTS 512
+
+/* The number of character of each active violation information */
+#define BUFFER_SIZE_FOR_EACH_ACTIVE_VIOLATION 64
 
 typedef enum _ErrorCode{
 
